@@ -1,7 +1,7 @@
 {
     "name": "happy-monkey/artemus",
     "description": "API Client for Artemus",
-    "type": "composer-plugin",
+    "type": "library",
     "authors": [
         {
             "name": "Happy Monkey",
