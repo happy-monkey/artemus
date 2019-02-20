@@ -1,0 +1,19 @@
+{
+    "name": "happy-monkey/artemus",
+    "description": "API Client for Artemus",
+    "type": "composer-plugin",
+    "authors": [
+        {
+            "name": "Happy Monkey",
+            "email": "contact@happy-monkey.fr"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "Artemus": "src/"
+        }
+    }
+}
