@@ -28,7 +28,7 @@ class Client
     /**
      * @var string
      */
-    private $endpoint = "http://artemus.lan/api/external/";
+    private $endpoint = "https://artemus.mkey.pw/api/external/";
 
 
     public static function init( $key, $secret )
