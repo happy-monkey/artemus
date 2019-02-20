@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: comic0
- * Date: 19/02/2019
- * Time: 20:51
- */
 
 namespace Artemus;
 
@@ -76,6 +70,11 @@ class Entry implements \JsonSerializable
         }
     }
 
+    /**
+     * List of objects for export in JSON or print_r
+     *
+     * @return array
+     */
     public function toArray()
     {
         $vars = get_object_vars($this);
@@ -93,11 +92,22 @@ class Entry implements \JsonSerializable
         return $data;
     }
 
+    /**
+     * Call API to create or update object
+     *
+     * @return bool Return true if object is saved
+     */
     public function save()
     {
         return Client::save($this);
     }
 
+    /**
+     * Call API to sync object
+     *
+     * @param string $fieldName Name of the field to use for check if object exists
+     * @return bool Return true if object is synced
+     */
     public function sync( $fieldName )
     {
         return Client::sync($this, $fieldName);
@@ -116,6 +126,8 @@ class Entry implements \JsonSerializable
     }
 
     /**
+     * ID of object
+     *
      * @return int
      */
     public function getId()
@@ -124,6 +136,8 @@ class Entry implements \JsonSerializable
     }
 
     /**
+     * Last update date in mysql DATETIME format
+     *
      * @return string
      */
     public function getCreatedAt()
@@ -132,6 +146,8 @@ class Entry implements \JsonSerializable
     }
 
     /**
+     * Last update date in mysql DATETIME format
+     *
      * @return string
      */
     public function getUpdatedAt()

@@ -30,7 +30,12 @@ class Client
      */
     private $endpoint = "https://artemus.mkey.pw/api/external/";
 
-
+    /**
+     * Init default client with key and secret provided
+     *
+     * @param string $key Application key
+     * @param string $secret Client secret provided in your API console
+     */
     public static function init( $key, $secret )
     {
         self::$defaultClient = new Client($key, $secret);
@@ -56,8 +61,10 @@ class Client
     }
 
     /**
-     * @param Entry $entry
-     * @param int $id
+     * Load an API Object in first argument
+     *
+     * @param Entry $entry Object to load
+     * @param int $id Id of object to load
      * @return bool
      */
     public static function get( &$entry, $id )
@@ -82,8 +89,10 @@ class Client
     }
 
     /**
-     * @param Entry $entry
-     * @return bool
+     * Save an object over API. If object does not exist, it will be created
+     *
+     * @param Entry $entry Object to save
+     * @return bool Return true if object has been saved
      */
     public static function save( &$entry )
     {
@@ -120,9 +129,11 @@ class Client
     }
 
     /**
-     * @param Entry $entry
-     * @param string $fieldName
-     * @return bool
+     * Create or update an object over API
+     *
+     * @param Entry $entry Object to check
+     * @param string $fieldName Name of the field to use for check if object exists
+     * @return bool Return true if object has been created or updated
      */
     public static function sync( &$entry, $fieldName )
     {
@@ -148,60 +159,68 @@ class Client
         return false;
     }
 
-    public static function fetch( $className, $query="" )
+    /**
+     * Fetch all objects in the collection in argument
+     *
+     * @param EntryCollection $collection Collection to fetch
+     * @param string $query Optionnal arguments to filter in API call
+     * @return bool Return true if objects are stored in collection
+     */
+    public static function fetch( &$collection, $query="" )
     {
-        $className = __NAMESPACE__."\\".$className;
+        $route = $collection->_getEndpoint();
 
-        if( class_exists($className) )
+        if( !is_null($route) )
         {
-            $route = $className::$API_ENDPOINT;
+            try {
 
-            if( !is_null($route) )
-            {
-                try {
+                $entryType = $collection->_getEntryType();
+                $req = self::$defaultClient->m_client->get($route."/".$query);
+                $entries = $entryType::fromArray(json_decode($req->getBody()));
 
-                    $req = self::$defaultClient->m_client->get($route."/".$query);
-                    return $className::fromArray(json_decode($req->getBody()));
+                $collection->setEntries($entries);
+                return true;
 
-                } catch ( \Exception $exception ) {
+            } catch ( \Exception $exception ) {
 
-                }
+
             }
         }
 
-        return [];
+        return false;
     }
 
     /**
-     * @param string $endpoint
-     * @param Entry[] $entries
-     * @param string $fieldName
-     * @return Entry[]
+     * Sync a collection of object
+     *
+     * @param EntryCollection $collection Collection to sync
+     * @param string $fieldName Name of the field to use for check if object exists
+     * @return bool Return true if objects are synced
      */
-    public static function bulk_sync( $className, $entries, $fieldName )
+    public static function bulk_sync( &$collection, $fieldName )
     {
-        $className = __NAMESPACE__."\\".$className;
+        $route = $collection->_getEndpoint();
 
-        if( class_exists($className) )
+        if( !is_null($route) )
         {
-            $route = $className::$API_ENDPOINT;
-            $data = json_encode($entries);
+            try {
 
-            if( !is_null($route) )
-            {
-                try {
+                $entryType = $collection->_getEntryType();
+                $data = json_encode($collection);
+                $req = self::$defaultClient->m_client->put("bulk/".$route."/".$fieldName, [
+                    "body" => $data
+                ]);
+                $entries = $entryType::fromArray(json_decode($req->getBody())->success);
 
-                    $req = self::$defaultClient->m_client->put("bulk/".$route."/".$fieldName, [
-                        "body" => $data
-                    ]);
-                    return $className::fromArray(json_decode($req->getBody())->success);
+                $collection->setEntries($entries);
+                return true;
 
-                } catch ( \Exception $exception ) {
+            } catch ( \Exception $exception ) {
 
-                }
+
             }
         }
 
-        return [];
+        return false;
     }
 }

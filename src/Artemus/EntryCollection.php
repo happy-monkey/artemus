@@ -2,12 +2,18 @@
 
 namespace Artemus;
 
+
 class EntryCollection implements \JsonSerializable
 {
     /**
-     * @var string|null
+     * @var string
      */
-    private $className = null;
+    private $entryType;
+
+    /**
+     * @var string
+     */
+    private $endpoint;
 
     /**
      * @var Entry[]
@@ -23,9 +29,25 @@ class EntryCollection implements \JsonSerializable
 
         if( class_exists($className) )
         {
-            $path = explode("\\", $className);
-            $this->className = end($path);
+            $this->entryType = $className;
+            $this->endpoint = $className::$API_ENDPOINT;
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function _getEntryType()
+    {
+        return $this->entryType;
+    }
+
+    /**
+     * @return string
+     */
+    public function _getEndpoint()
+    {
+        return $this->endpoint;
     }
 
     /**
@@ -34,6 +56,42 @@ class EntryCollection implements \JsonSerializable
     public function count()
     {
         return count($this->entries);
+    }
+
+    /**
+     * Get entry at first position
+     *
+     * @return Entry|bool
+     */
+    public function getFirst()
+    {
+        return reset($this->entries);
+    }
+
+    /**
+     * Get entry at last position
+     *
+     * @return Entry|bool
+     */
+    public function getLast()
+    {
+        return end($this->entries);
+    }
+
+    /**
+     * Get entry at a position
+     *
+     * @param int $index Index of entry
+     * @return Entry|bool
+     */
+    public function get( $index )
+    {
+        if( isset($this->entries[$index]) )
+        {
+            return $this->entries[$index];
+        }
+
+        return false;
     }
 
     /**
@@ -65,7 +123,7 @@ class EntryCollection implements \JsonSerializable
      */
     public function sync( $fieldName )
     {
-        $this->entries = Client::bulk_sync($this->className, $this->entries, $fieldName);
+        return Client::bulk_sync($this, $fieldName);
     }
 
     /**
@@ -73,7 +131,7 @@ class EntryCollection implements \JsonSerializable
      */
     public function fetch( $query="" )
     {
-        $this->entries = Client::fetch($this->className, $query);
+        return Client::fetch($this, $query);
     }
 
     /**
