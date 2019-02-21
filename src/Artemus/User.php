@@ -100,11 +100,19 @@ class User extends Entry
      * @param string $name
      * @param mixed $value
      */
-    public function setField( $name, $value )
+    public function setField( $name, $value, $atts=null )
     {
         if( !is_array($this->fields) )
         {
             $this->fields = [];
+        }
+
+        if( !is_null($atts) )
+        {
+            $value = [
+                'value' => $value,
+                'atts' => $atts
+            ];
         }
 
         $this->fields[$name] = $value;
