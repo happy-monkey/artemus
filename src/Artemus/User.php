@@ -99,8 +99,9 @@ class User extends Entry
     /**
      * @param string $name
      * @param mixed $value
+     * @param string $attr
      */
-    public function setField( $name, $value, $atts=null )
+    public function setField( $name, $value, $attr=null )
     {
         if( !is_array($this->fields) )
         {
@@ -111,7 +112,7 @@ class User extends Entry
         {
             $value = [
                 'value' => $value,
-                'atts' => $atts
+                'attr' => $attr
             ];
         }
 
