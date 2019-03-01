@@ -26,7 +26,7 @@ foreach( $users as $user )
     $entry->setFirstname($user->firstname);
     $entry->setLastname($user->lastname);
     $entry->setEmail($user->email);
-    $entry->setGroups(["samsung"]);
+    $entry->setEntity("samsung");
     $entry->setField("id_samsung", $user->id);
 
     $collection->add($entry);

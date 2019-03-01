@@ -17,9 +17,9 @@ $entry = new ArtemusUser();
 $entry->setFirstname("Alexandre");
 $entry->setLastname("Chastan");
 $entry->setEmail("alex_chastan@artemus.fr");
-$entry->setGroups(["samsung"]);
+$entry->setEntity("samsung");
 $entry->setField("id_samsung", 1);
-$entry->setField("magasin_samsung", "Darty Odysseum");
+$entry->setField("magasin_samsung", "Darty Odysseum", 10);
 
 if( $entry->sync("id_samsung") )
 {

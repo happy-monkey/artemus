@@ -30,7 +30,7 @@ class User extends Entry
     /**
      * @var array
      */
-    protected $groups;
+    protected $entities;
 
     /**
      * @param string $firstname
@@ -108,7 +108,7 @@ class User extends Entry
             $this->fields = [];
         }
 
-        if( !is_null($atts) )
+        if( !is_null($attr) )
         {
             $value = [
                 'value' => $value,
@@ -122,21 +122,29 @@ class User extends Entry
     /**
      * @param array $groups
      */
-    public function setGroups($groups)
+    public function setEntities($entities)
     {
-        if( !is_array($groups) )
+        if( !is_array($entities) )
         {
-            $groups = [$groups];
+            $entities = [$entities];
         }
 
-        $this->groups = $groups;
+        $this->entities = $entities;
     }
 
     /**
      * @return array
      */
-    public function getGroups()
+    public function getEntities()
     {
-        return $this->groups;
+        return $this->entities;
+    }
+
+    /**
+     * @param $entity
+     */
+    public function setEntity( $entity )
+    {
+        $this->setEntities([$entity]);
     }
 }

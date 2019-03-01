@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Artemus\Client as ArtemusClient;
-use Artemus\User as ArtemusUser;
+use Artemus\Field as ArtemusField;
 
 $key = "ocCIXzd6N5Jj";
 $secret = "eaTH4UAhrnKpncftkJPl61gLmFCKZGq9BsXkG2xLuvmubjoySe3BM8tHO30V81sr0qRxYoRwOZVS7fwPDTI7hgEd5v";
@@ -11,13 +11,10 @@ $secret = "eaTH4UAhrnKpncftkJPl61gLmFCKZGq9BsXkG2xLuvmubjoySe3BM8tHO30V81sr0qRxY
 
 ArtemusClient::init($key, $secret);
 
-$users = ArtemusUser::collection();
+$field = new ArtemusField();
+$field->setApiName("magasin");
 
-if( $users->fetch() )
-{
-    print_r($users->toArray());
-}
-else
-{
-    echo "An error has occured";
-}
+$field->addValue("Darty", 1);
+$field->addValue("FNAC", 2);
+$field->addValue("Boulanger", 3);
+$field->save();
