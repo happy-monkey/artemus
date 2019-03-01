@@ -27,8 +27,9 @@ class Client
 
     /**
      * @var string
+     * "http://artemus.lan/api/external/"; //
      */
-    private $endpoint = "http://artemus.lan/api/external/"; //"https://artemus.mkey.pw/api/external/";
+    private $endpoint = "https://artemus.mkey.pw/api/external/";
 
     /**
      * Init default client with key and secret provided

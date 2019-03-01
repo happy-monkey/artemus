@@ -20,7 +20,7 @@ class EntryCollection implements \JsonSerializable
      */
     private $entries = [];
 
-    public function __construct( $className )
+    public function __construct( $className, $objects=[] )
     {
         if( !class_exists($className) )
         {
@@ -31,6 +31,11 @@ class EntryCollection implements \JsonSerializable
         {
             $this->entryType = $className;
             $this->endpoint = $className::$API_ENDPOINT;
+        }
+
+        foreach( $objects as $object )
+        {
+            $this->add($object);
         }
     }
 

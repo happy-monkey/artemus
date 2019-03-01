@@ -22,6 +22,11 @@ class Entry implements \JsonSerializable
      */
     private $updated_at;
 
+    /**
+     * @var array
+     */
+    protected $binds = [];
+
     static public function fromArray( $array )
     {
         $result = [];
@@ -39,9 +44,9 @@ class Entry implements \JsonSerializable
         return $obj;
     }
 
-    static public function collection()
+    static public function collection( $objects = [] )
     {
-        $collection = new EntryCollection(get_class(new static()));
+        $collection = new EntryCollection(get_class(new static()), $objects);
 
         return $collection;
     }
@@ -56,6 +61,29 @@ class Entry implements \JsonSerializable
 
     public function loadJSON( $json )
     {
+        foreach( $this->binds as $key=>$className )
+        {
+            $loadArray = false;
+
+            if( substr($key, -2)=="[]" )
+            {
+                $key = substr($key, 0, -2);
+                $loadArray = true;
+            }
+
+            if( property_exists($json, $key) && class_exists($className) )
+            {
+                if( $loadArray )
+                {
+                    $json->$key = $className::fromArray($json->$key);
+                }
+                else
+                {
+                    $json->$key = $className::fromJSON($json->$key);
+                }
+            }
+        }
+
         foreach( $json as $key=>$value )
         {
             if( property_exists($this, $key) )
@@ -68,6 +96,11 @@ class Entry implements \JsonSerializable
                 $this->$key = $value;
             }
         }
+    }
+
+    public function exists()
+    {
+        return !is_null($this->id);
     }
 
     /**
@@ -85,7 +118,14 @@ class Entry implements \JsonSerializable
             $getter = "get".str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
             if( method_exists($this, $getter) )
             {
-                $data[$property] = call_user_func_array([$this, $getter], []);
+                $value = call_user_func_array([$this, $getter], []);
+
+                if( is_a($value, 'Artemus\Entry') )
+                {
+                    $value = $value->toArray();
+                }
+
+                $data[$property] = $value;
             }
         }
 
