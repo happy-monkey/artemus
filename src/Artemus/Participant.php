@@ -14,7 +14,8 @@ class Participant extends Entry
     public static $API_ENDPOINT = "participants";
 
     protected $binds = [
-        "user" => "Artemus\User"
+        "user" => "Artemus\User",
+        "results[]" => "Artemus\ModuleResult"
     ];
 
     /**
@@ -36,6 +37,11 @@ class Participant extends Entry
      * @var User
      */
     protected $user;
+
+    /**
+     * @var ModuleResult[]
+     */
+    protected $results;
 
     /**
      * @param string $firstname
@@ -101,8 +107,39 @@ class Participant extends Entry
         return $this->user;
     }
 
+    /**
+     * @return ModuleResult[]
+     */
+    public function getResults()
+    {
+        return $this->results;
+    }
+
+    /**
+     * @param int $index
+     * @return ModuleResult[]
+     */
+    public function getResultsAtIndex( $index )
+    {
+        return array_filter($this->results, function (ModuleResult $result) use ($index) {
+           return $result->getIndex() == $index;
+        });
+    }
+
+    /**
+     * @param int $index
+     * @return ModuleResult|null
+     */
+    public function getLastResultAtIndex( $index )
+    {
+        $results = array_reverse($this->getResultsAtIndex($index));
+        return reset($results);
+    }
+
     public function loadJSON($json)
     {
+        $this->results = [];
+
         parent::loadJSON($json);
 
         if( $this->user && !$this->user->exists() )

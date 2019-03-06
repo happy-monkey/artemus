@@ -20,6 +20,11 @@ class EntryCollection implements \JsonSerializable
      */
     private $entries = [];
 
+    /**
+     * @var array
+     */
+    private $params = [];
+
     public function __construct( $className, $objects=[] )
     {
         if( !class_exists($className) )
@@ -134,9 +139,9 @@ class EntryCollection implements \JsonSerializable
     /**
      * @param string $query
      */
-    public function fetch( $query="" )
+    public function fetch()
     {
-        return Client::fetch($this, $query);
+        return Client::fetch($this, $this->params);
     }
 
     /**
@@ -152,6 +157,16 @@ class EntryCollection implements \JsonSerializable
         }
 
         return $result;
+    }
+
+    public function setQueryEntities( $entities )
+    {
+        $this->setQueryFilter("entities", implode(",", $entities));
+    }
+
+    public function setQueryFilter( $property, $value )
+    {
+        $this->params[$property] = $value;
     }
 
     /**

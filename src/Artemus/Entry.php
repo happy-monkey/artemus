@@ -44,6 +44,10 @@ class Entry implements \JsonSerializable
         return $obj;
     }
 
+    /**
+     * @param array $objects
+     * @return EntryCollection
+     */
     static public function collection( $objects = [] )
     {
         $collection = new EntryCollection(get_class(new static()), $objects);
@@ -84,16 +88,20 @@ class Entry implements \JsonSerializable
             }
         }
 
-        foreach( $json as $key=>$value )
-        {
-            if( property_exists($this, $key) )
-            {
-                if( is_numeric($value) )
-                {
-                    $value = intval($value);
-                }
 
-                $this->$key = $value;
+        if( !is_null($json) )
+        {
+            foreach( $json as $key=>$value )
+            {
+                if( property_exists($this, $key) )
+                {
+                    if( is_numeric($value) )
+                    {
+                        $value = intval($value);
+                    }
+
+                    $this->$key = $value;
+                }
             }
         }
     }

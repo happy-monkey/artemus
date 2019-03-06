@@ -168,10 +168,10 @@ class Client
      * Fetch all objects in the collection in argument
      *
      * @param EntryCollection $collection Collection to fetch
-     * @param string $query Optionnal arguments to filter in API call
+     * @param array $params
      * @return bool Return true if objects are stored in collection
      */
-    public static function fetch( &$collection, $query="" )
+    public static function fetch( &$collection, $params=[] )
     {
         $route = $collection->_getEndpoint();
 
@@ -179,8 +179,13 @@ class Client
         {
             try {
 
+                if( count($params)>0 )
+                {
+                    $route .= "?".http_build_query($params);
+                }
+
                 $entryType = $collection->_getEntryType();
-                $req = self::$defaultClient->m_client->get($route."/".$query);
+                $req = self::$defaultClient->m_client->get($route);
                 $entries = $entryType::fromArray(json_decode($req->getBody()));
 
                 $collection->setEntries($entries);
