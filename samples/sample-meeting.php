@@ -26,7 +26,12 @@ foreach( $meeting->getUsers() as $participant )
 
         $participant->save();
     }
-}
 
+    if( $module = $participant->getLastResultAtIndex(1) )
+    {
+        print_r($module->getAnswers());
+    }
+}
+/*
 $participants = ArtemusParticipant::collection($meeting->getUsers());
-print_r($participants->toArray());
+print_r($participants->toArray());*/
