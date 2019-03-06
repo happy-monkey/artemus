@@ -57,7 +57,7 @@ class Meeting extends Entry
     /**
      * @var Participant[]
      */
-    protected $users;
+    protected $participants;
 
     /**
      * @param string $uid
@@ -172,18 +172,18 @@ class Meeting extends Entry
     }
 
     /**
-     * @param Participant[] $users
+     * @param Participant[] $participants
      */
-    public function setUsers($users)
+    public function setParticipants($participants)
     {
-        $this->users = $users;
+        $this->participants = $participants;
     }
 
     /**
      * @return Participant[]
      */
-    public function getUsers()
+    public function getParticipants()
     {
-        return $this->users;
+        return $this->participants;
     }
 }

@@ -22,7 +22,7 @@ foreach( $meetings->getEntries() as $meeting )
     /**
      * @var \Artemus\Meeting $meeting
      */
-    foreach( $meeting->getUsers() as $participant )
+    foreach( $meeting->getParticipants() as $participant )
     {
 
         $user = $participant->getUser();
