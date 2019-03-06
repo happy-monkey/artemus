@@ -16,7 +16,7 @@ class Meeting extends Entry
     protected $binds = [
         "animator" => "Artemus\User",
         "formation" => "Artemus\Formation",
-        "users[]" => "Artemus\Participant"
+        "participants[]" => "Artemus\Participant"
     ];
 
     /**
