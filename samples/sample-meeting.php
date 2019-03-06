@@ -10,7 +10,7 @@ $key = "ocCIXzd6N5Jj";
 $secret = "eaTH4UAhrnKpncftkJPl61gLmFCKZGq9BsXkG2xLuvmubjoySe3BM8tHO30V81sr0qRxYoRwOZVS7fwPDTI7hgEd5v";
 
 
-ArtemusClient::init($key, $secret);
+ArtemusClient::init($key, $secret, "http://artemus.lan/api/external/");
 
 $meeting = new ArtemusMeeting(25);
 

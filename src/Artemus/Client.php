@@ -27,7 +27,6 @@ class Client
 
     /**
      * @var string
-     * "http://artemus.lan/api/external/"; //
      */
     private $endpoint = "https://artemus.mkey.pw/api/external/";
 
@@ -37,15 +36,20 @@ class Client
      * @param string $key Application key
      * @param string $secret Client secret provided in your API console
      */
-    public static function init( $key, $secret )
+    public static function init( $key, $secret, $url=null )
     {
-        self::$defaultClient = new Client($key, $secret);
+        self::$defaultClient = new Client($key, $secret, $url);
     }
 
-    protected function __construct( $key, $secret )
+    protected function __construct( $key, $secret, $url=null )
     {
         $this->m_key = $key;
         $this->m_secret = $secret;
+
+        if( !is_null($url) )
+        {
+            $this->endpoint = $url;
+        }
 
         $this->m_client = new \GuzzleHttp\Client([
             'base_uri' => $this->endpoint,
