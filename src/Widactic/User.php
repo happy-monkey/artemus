@@ -25,7 +25,7 @@ class User extends Entry
     /**
      * @var array
      */
-    protected $fields = [];
+    protected $fields;
 
     /**
      * @var array
@@ -160,5 +160,15 @@ class User extends Entry
     public function setEntity( $entity )
     {
         $this->setEntities([$entity]);
+    }
+
+    public function loadJSON($json)
+    {
+        if( isset($json->fields) )
+        {
+            $json->fields = (array) $json->fields;
+        }
+
+        parent::loadJSON($json);
     }
 }
