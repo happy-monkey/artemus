@@ -1,6 +1,6 @@
 <?php
 
-namespace Artemus;
+namespace Widactic;
 
 
 class Entry implements \JsonSerializable
@@ -128,7 +128,7 @@ class Entry implements \JsonSerializable
             {
                 $value = call_user_func_array([$this, $getter], []);
 
-                if( is_a($value, 'Artemus\Entry') )
+                if( is_a($value, 'Widactic\Entry') )
                 {
                     $value = $value->toArray();
                 }

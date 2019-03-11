@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: comic0
- * Date: 01/03/2019
- * Time: 09:09
- */
 
-namespace Artemus;
+namespace Widactic;
 
 
 class Participant extends Entry
@@ -14,8 +8,8 @@ class Participant extends Entry
     public static $API_ENDPOINT = "participants";
 
     protected $binds = [
-        "user" => "Artemus\User",
-        "results[]" => "Artemus\ModuleResult"
+        "user" => "Widactic\User",
+        "results[]" => "Widactic\ModuleResult"
     ];
 
     /**

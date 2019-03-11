@@ -1,6 +1,6 @@
 <?php
 
-namespace Artemus;
+namespace Widactic;
 
 
 class User extends Entry

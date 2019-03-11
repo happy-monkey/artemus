@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Artemus\Client as ArtemusClient;
-use Artemus\Meeting as ArtemusMeeting;
-use Artemus\Participant as ArtemusParticipant;
+use Widactic\Client as ArtemusClient;
+use Widactic\Meeting as ArtemusMeeting;
+use Widactic\Participant as ArtemusParticipant;
 
 $key = "ocCIXzd6N5Jj";
 $secret = "eaTH4UAhrnKpncftkJPl61gLmFCKZGq9BsXkG2xLuvmubjoySe3BM8tHO30V81sr0qRxYoRwOZVS7fwPDTI7hgEd5v";
@@ -20,7 +20,7 @@ $meetings->fetch();
 foreach( $meetings->getEntries() as $meeting )
 {
     /**
-     * @var \Artemus\Meeting $meeting
+     * @var \Widactic\Meeting $meeting
      */
     foreach( $meeting->getParticipants() as $participant )
     {

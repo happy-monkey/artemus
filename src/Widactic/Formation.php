@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: comic0
- * Date: 01/03/2019
- * Time: 09:09
- */
 
-namespace Artemus;
+namespace Widactic;
 
 
 class Formation extends Entry

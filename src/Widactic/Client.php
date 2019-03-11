@@ -1,6 +1,6 @@
 <?php
 
-namespace Artemus;
+namespace Widactic;
 
 
 class Client
@@ -28,7 +28,7 @@ class Client
     /**
      * @var string
      */
-    private $endpoint = "https://artemus.mkey.pw/api/external/";
+    private $endpoint = "https://secure.widactic.com/api/external/";
 
     /**
      * Init default client with key and secret provided

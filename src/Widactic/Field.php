@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: comic0
- * Date: 28/02/2019
- * Time: 16:41
- */
 
-namespace Artemus;
+namespace Widactic;
 
 
 class Field extends Entry

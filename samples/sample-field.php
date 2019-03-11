@@ -2,8 +2,8 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Artemus\Client as ArtemusClient;
-use Artemus\Field as ArtemusField;
+use Widactic\Client as ArtemusClient;
+use Widactic\Field as ArtemusField;
 
 $key = "ocCIXzd6N5Jj";
 $secret = "eaTH4UAhrnKpncftkJPl61gLmFCKZGq9BsXkG2xLuvmubjoySe3BM8tHO30V81sr0qRxYoRwOZVS7fwPDTI7hgEd5v";
