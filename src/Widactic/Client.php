@@ -31,6 +31,11 @@ class Client
     private $endpoint = "https://secure.widactic.com/api/external/";
 
     /**
+     * @var int
+     */
+    private $bulk_chunk_size = 100;
+
+    /**
      * Init default client with key and secret provided
      *
      * @param string $key Application key
@@ -216,13 +221,26 @@ class Client
             try {
 
                 $entryType = $collection->_getEntryType();
-                $data = json_encode($collection);
-                $req = self::$defaultClient->m_client->put("bulk/".$route."/".$fieldName, [
-                    "body" => $data
-                ]);
-                $entries = $entryType::fromArray(json_decode($req->getBody())->success);
+                $array = $collection->getEntries();
+                $chunked = array_chunk($array, self::$defaultClient->bulk_chunk_size);
 
-                $collection->setEntries($entries);
+                $updatedEntries = [];
+
+                foreach( $chunked as $entries )
+                {
+                    $data = json_encode($entries);
+                    $req = self::$defaultClient->m_client->put("bulk/".$route."/".$fieldName, [
+                        "body" => $data
+                    ]);
+
+                    $updatedEntries = array_merge(
+                        $updatedEntries,
+                        $entryType::fromArray(json_decode($req->getBody())->success)
+                    );
+                }
+
+                $collection->setEntries($updatedEntries);
+
                 return true;
 
             } catch ( \Exception $exception ) {
