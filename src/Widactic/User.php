@@ -25,7 +25,7 @@ class User extends Entry
     /**
      * @var array
      */
-    protected $fields;
+    protected $fields = [];
 
     /**
      * @var array
@@ -94,6 +94,20 @@ class User extends Entry
     public function getFields()
     {
         return $this->fields;
+    }
+
+    /**
+     * @param $name
+     * @return mixed|null
+     */
+    public function getField( $name )
+    {
+        if( isset($this->fields[$name]) )
+        {
+            return $this->fields[$name];
+        }
+
+        return null;
     }
 
     /**
