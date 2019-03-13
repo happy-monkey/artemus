@@ -273,8 +273,8 @@ class Client
         return false;
     }
 
-    public function getLastError()
+    public static function getLastError()
     {
-        return $this->last_error;
+        return self::$defaultClient->last_error;
     }
 }
