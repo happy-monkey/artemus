@@ -3,6 +3,8 @@
 namespace Widactic;
 
 
+use Psr\Http\Message\ResponseInterface;
+
 class Client
 {
     /**
@@ -34,6 +36,16 @@ class Client
      * @var int
      */
     private $bulk_chunk_size = 100;
+
+    /**
+     * @var int
+     */
+    private $bulk_sleep = 1;
+
+    /**
+     * @var string|null
+     */
+    private $last_error = false;
 
     /**
      * Init default client with key and secret provided
@@ -70,6 +82,11 @@ class Client
         return "Basic ".base64_encode($this->m_key.":".$this->m_secret);
     }
 
+    private function isValidStatusCode( ResponseInterface $req )
+    {
+        return in_array($req->getStatusCode(), [200, 201]);
+    }
+
     /**
      * Load an API Object in first argument
      *
@@ -92,6 +109,7 @@ class Client
 
             } catch ( \Exception $exception ) {
 
+                self::$defaultClient->last_error = $exception->getMessage();
             }
         }
 
@@ -132,6 +150,7 @@ class Client
 
             } catch ( \Exception $exception ){
 
+                self::$defaultClient->last_error = $exception->getMessage();
             }
         }
 
@@ -163,6 +182,7 @@ class Client
 
             } catch ( \Exception $exception ) {
 
+                self::$defaultClient->last_error = $exception->getMessage();
             }
         }
 
@@ -192,13 +212,12 @@ class Client
                 $entryType = $collection->_getEntryType();
                 $req = self::$defaultClient->m_client->get($route);
                 $entries = $entryType::fromArray(json_decode($req->getBody()));
-
                 $collection->setEntries($entries);
                 return true;
 
             } catch ( \Exception $exception ) {
 
-
+                self::$defaultClient->last_error = $exception->getMessage();
             }
         }
 
@@ -237,6 +256,8 @@ class Client
                         $updatedEntries,
                         $entryType::fromArray(json_decode($req->getBody())->success)
                     );
+
+                    sleep(self::$defaultClient->bulk_sleep);
                 }
 
                 $collection->setEntries($updatedEntries);
@@ -245,10 +266,15 @@ class Client
 
             } catch ( \Exception $exception ) {
 
-
+                self::$defaultClient->last_error = $exception->getMessage();
             }
         }
 
         return false;
+    }
+
+    public function getLastError()
+    {
+        return $this->last_error;
     }
 }
