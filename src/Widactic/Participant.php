@@ -38,6 +38,11 @@ class Participant extends Entry
     protected $results;
 
     /**
+     * @var array
+     */
+    protected $fields;
+
+    /**
      * @param string $firstname
      */
     public function setFirstname($firstname)
@@ -129,6 +134,65 @@ class Participant extends Entry
         $results = array_reverse($this->getResultsAtIndex($index));
         return reset($results);
     }
+
+    /**
+     * @param array $fields
+     */
+    public function setFields($fields)
+    {
+        $this->fields = $fields;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * @param $name
+     * @return mixed|null
+     */
+    public function getField( $name )
+    {
+        if( isset($this->fields[$name]) )
+        {
+            return $this->fields[$name];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $name
+     * @return mixed|null
+     */
+    public function getFieldValue( $name )
+    {
+        if( $field = $this->getField($name) )
+        {
+            return $field->value;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $name
+     * @return mixed|null
+     */
+    public function getFieldAttribute( $name )
+    {
+        if( $field = $this->getField($name) )
+        {
+            return $field->attr;
+        }
+
+        return null;
+    }
+
 
     public function loadJSON($json)
     {

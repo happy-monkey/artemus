@@ -111,6 +111,34 @@ class User extends Entry
     }
 
     /**
+     * @param $name
+     * @return mixed|null
+     */
+    public function getFieldValue( $name )
+    {
+        if( $field = $this->getField($name) )
+        {
+            return $field->value;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $name
+     * @return mixed|null
+     */
+    public function getFieldAttribute( $name )
+    {
+        if( $field = $this->getField($name) )
+        {
+            return $field->attr;
+        }
+
+        return null;
+    }
+
+    /**
      * @param string $name
      * @param mixed $value
      * @param string $attr
