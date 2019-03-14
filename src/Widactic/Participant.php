@@ -148,6 +148,11 @@ class Participant extends Entry
      */
     public function getFields()
     {
+        if( !is_array($this->fields) )
+        {
+            $this->fields = (array) $this->fields;
+        }
+
         return $this->fields;
     }
 
@@ -157,6 +162,11 @@ class Participant extends Entry
      */
     public function getField( $name )
     {
+        if( !is_array($this->fields) )
+        {
+            $this->fields = (array) $this->fields;
+        }
+
         if( isset($this->fields[$name]) )
         {
             return $this->fields[$name];

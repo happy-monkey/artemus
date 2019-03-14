@@ -65,32 +65,31 @@ class Entry implements \JsonSerializable
 
     public function loadJSON( $json )
     {
-        foreach( $this->binds as $key=>$className )
-        {
-            $loadArray = false;
-
-            if( substr($key, -2)=="[]" )
-            {
-                $key = substr($key, 0, -2);
-                $loadArray = true;
-            }
-
-            if( property_exists($json, $key) && class_exists($className) )
-            {
-                if( $loadArray )
-                {
-                    $json->$key = $className::fromArray($json->$key);
-                }
-                else
-                {
-                    $json->$key = $className::fromJSON($json->$key);
-                }
-            }
-        }
-
-
         if( !is_null($json) )
         {
+            foreach( $this->binds as $key=>$className )
+            {
+                $loadArray = false;
+
+                if( substr($key, -2)=="[]" )
+                {
+                    $key = substr($key, 0, -2);
+                    $loadArray = true;
+                }
+
+                if( property_exists($json, $key) && class_exists($className) )
+                {
+                    if( $loadArray )
+                    {
+                        $json->$key = $className::fromArray($json->$key);
+                    }
+                    else
+                    {
+                        $json->$key = $className::fromJSON($json->$key);
+                    }
+                }
+            }
+
             foreach( $json as $key=>$value )
             {
                 if( property_exists($this, $key) )

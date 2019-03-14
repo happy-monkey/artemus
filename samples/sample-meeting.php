@@ -12,7 +12,7 @@ $secret = "eaTH4UAhrnKpncftkJPl61gLmFCKZGq9BsXkG2xLuvmubjoySe3BM8tHO30V81sr0qRxY
 
 ArtemusClient::init($key, $secret, "http://artemus.lan/api/external/");
 
-$meeting = new ArtemusMeeting(25);
+$meeting = new ArtemusMeeting(75);
 
 foreach( $meeting->getParticipants() as $participant )
 {
@@ -24,14 +24,13 @@ foreach( $meeting->getParticipants() as $participant )
         $user->setEntity("samsung");
         $user->setField("id_samsung", 100);
 
+        //$participant->setUser($user);
         $participant->save();
     }
 
+    /*
     if( $module = $participant->getLastResultAtIndex(1) )
     {
         print_r($module->getAnswers());
-    }
+    }*/
 }
-/*
-$participants = ArtemusParticipant::collection($meeting->getUsers());
-print_r($participants->toArray());*/

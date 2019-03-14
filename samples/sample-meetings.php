@@ -33,6 +33,7 @@ foreach( $meetings->getEntries() as $meeting )
             $user->setEntity("samsung");
             $user->setField("id_samsung", 100);
 
+            $participant->setUser($user);
             $participant->save();
         }
 
